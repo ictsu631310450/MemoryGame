@@ -34,14 +34,14 @@ namespace SecondTry
 
         public enum ColorType
         {
-            RED,
+            RED, //0
             BLUE,
             PURPLE,
             BROWN,
             GOLD,
             SILVER,
             BLACK,
-            GREEN,
+            GREEN, //7
         }
 
         void Start()
@@ -51,7 +51,8 @@ namespace SecondTry
             RandomPosition();
             Debug.Log("Can Play");
 
-            CardPrefab cardPrefab = cardPrefabs.Find(x => x.colorType == ColorType.GREEN);
+            //CardPrefab cardPrefab = cardPrefabs.Find(x => x.colorType == ColorType.GREEN);
+
             //cardPrefab.colorBGPrefab
             //Instantiate(cardPrefab.colorBGPrefab, null, false);
         }
@@ -72,20 +73,25 @@ namespace SecondTry
 
         private void SetNumber()
         {
-            for (int i = 0; i < cardAll.Count / 2; i++)
+            for (int i = 0; i < cardAll.Count; i++)
             {
                 CardData cardData = cardAll[i].GetComponent<CardData>();
-                CardData cardData2 = cardAll[(cardAll.Count - (i + 1))].GetComponent<CardData>();
+                //CardData cardData2 = cardAll[(cardAll.Count - (i + 1))].GetComponent<CardData>();
 
-                cardData.NumberSet(cardData2.numberCard);
-                cardData.SetNumber();
+                //cardData.NumberSet(cardData2.numberCard);
+                //cardData.SetNumber();
 
-                int hhh = 0; //random
+                int hhh = UnityEngine.Random.Range(0,7); //random color
                 ColorType colorType = (ColorType)hhh;
+                cardData.SetColor(hhh);
                 cardData.bgImage.sprite = cardPrefabs.Find(x => x.colorType == colorType).imageSprite;
 
-                int numerRand = 4;
+
+                int numerRand = UnityEngine.Random.Range(1, 16);//random number
                 cardData.numberImage.sprite = numberSprites[numerRand];
+                cardData.SetNumber(numerRand);
+
+
             }
         }
 
@@ -129,7 +135,7 @@ namespace SecondTry
         {
             cardAll.Clear();
             foreach (var tr in parentCardAll.GetComponentsInChildren<CardData>()) cardAll.Add(tr);
-            cardAll.RemoveAt(0);
+            //cardAll.RemoveAt(0);
         }
 
         private void CheckAction()
